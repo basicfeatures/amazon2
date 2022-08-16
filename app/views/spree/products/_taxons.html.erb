@@ -1,0 +1,7 @@
+<% if !@product.taxons.blank? %>
+  <h6><%= t("spree.look_for_similar_items") %></h6>
+  <% @product.taxons.each do |taxon| %>
+    <%= link_to taxon.name, seo_url(taxon) %>
+  <% end %>
+<% end %>
+

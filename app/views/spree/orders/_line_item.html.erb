@@ -1,0 +1,21 @@
+<% variant = line_item.variant %>
+<div class="line_items">
+  <%= order_form.fields_for :line_items, line_item do |item_form| %>
+    <div class="photo">
+      <%= link_to(render("spree/shared/image", image: (variant.gallery.images.first || variant.product.gallery.images.first), size: :small), variant.product) %>
+    </div>
+    <div class="details">
+      <p><%= link_to line_item.name, product_path(variant.product) %></p>
+      <% if line_item.insufficient_stock? %>
+        <p><%= t("spree.out_of_stock") %></p>
+      <% end %>
+      <p><%= line_item.single_money.to_html %> <span class="original_price"><%= Spree::Money.new(line_item.single_money.to_d * 1.50).to_html %></span></p>
+      <%= link_to t("spree.delete"), "#", id: "delete_#{ dom_id(line_item) }", class: "delete" %>
+      <%#= line_item.display_amount.to_html unless line_item.quantity.nil? %>
+      <%#= item_form.number_field :quantity %>
+      <%#= variant.options_text %>
+      <%#= line_item_description_text(line_item.description) %>
+    </div>
+  <% end %>
+</div>
+

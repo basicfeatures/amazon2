@@ -1,0 +1,40 @@
+<section class="products">
+  <% if params.key?(:keywords) %>
+    <%= paginated_products = @searcher.retrieve_products %>
+  <% end %>
+  <% paginated_products ||= products %>
+  <%# content_for :head do %>
+    <%# if paginated_products.respond_to?(:total_pages) %>
+      <%#= rel_next_prev_link_tags paginated_products %>
+    <%# end %>
+  <%# end %>
+  <% if params.key?(:keywords) %>
+    <h2><%= t("spree.search_results", keywords: h(params[:keywords])) %></h2>
+  <% end %>
+  <% if products.any? %>
+    <% products.each do |product| %>
+      <% url = spree.product_path(product, taxon_id: @taxon.try(:id)) %>
+      <div class="card" itemscope itemtype="http://schema.org/Product">
+        <% cache(@taxon.present? ? [I18n.locale, current_pricing_options, @taxon, product] : [I18n.locale, current_pricing_options, product]) do %>
+          <%= link_to(render("spree/shared/image", image: product.gallery.images.first, size: :small, itemprop: "image"), url, itemprop: "url") %>
+          <p><%= link_to truncate(product.name, length: 50), url, itemprop: "name", title: product.name %></p>
+          <div class="price_line" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <% if price = product.price_for(current_pricing_options) %>
+              <span class="original_price"><%= Spree::Money.new(price.to_d * 1.40).to_html %></span>
+              <span itemprop="price" content="<%= price.to_d %>">
+                <%= price.to_html %>
+              </span>
+            <% end %>
+            <span itemprop="priceCurrency" content="<%= current_pricing_options.currency %>"></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <p><%= t("spree.no_products_found") %></p>
+  <% end %>
+</section>
+<% if paginated_products.respond_to?(:total_pages) %>
+  <%= paginate paginated_products %>
+<% end %>
+

@@ -1,0 +1,36 @@
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    <% taxon = Spree::Taxon.find_by_name!("Dresses") %>
+    <%= link_to(seo_url(taxon), itemprop: "productCollection", itemscope: "", offers: taxon, itemtype: "https://schema.org/ProductCollection") do %>
+      <div class="cover">
+        <h2>50% Rabatt På Alt</h2>
+        <p>Shop Nå</p>
+        <p>Cream Cosy Cable Knit Cut Out Buckle Turtleneck Sweater</p>
+        <%= image_tag "tobi_cream_cosy_cable_knit_cut_out_buckle_turtleneck_sweater_removebg.png" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="swiper-wrapper">
+    <% taxon = Spree::Taxon.find_by_name!("Jackets") %>
+    <%= link_to(seo_url(taxon), itemprop: "productCollection", itemscope: "", offers: taxon, itemtype: "https://schema.org/ProductCollection") do %>
+      <div class="cover">
+        <h2>Sweater Dresses</h2>
+        <p>Shop Nå</p>
+        <p>Rose Nikki Off Shoulder Sweater Dress</p>
+        <%= image_tag "tobi_rose_nikki_off_shoulder_sweater_dress_removebg.png" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="swiper-wrapper">
+    <% taxon = Spree::Taxon.find_by_name!("Skirts") %>
+    <%= link_to(seo_url(taxon), itemprop: "productCollection", itemscope: "", offers: taxon, itemtype: "https://schema.org/ProductCollection") do %>
+      <div class="cover">
+        <h2>Valentindags-spesial</h2>
+        <p>Shop Nå</p>
+        <p>Sage Rhea Ribbed Tank Bodycon Mini Dress</p>
+        <%= image_tag "tobi_sage_rhea_ribbed_tank_bodycon_mini_dress_removebg.png" %>
+      </div>
+    <% end %>
+  </div>
+</div> 
+

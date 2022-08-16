@@ -1,0 +1,19 @@
+<%= form.fields_for :bill_address do |bill_form| %>
+  <h2><%= t("spree.billing_address") %></h2>
+  <%= render "spree/address/form", locals: { form: bill_form, address_type: "billing", address: @order.bill_address } %>
+<% end %>
+<%= form.fields_for :ship_address do |ship_form| %>
+  <h2><%= t("spree.shipping_address") %></h2>
+  <!--<div class="checkbox">
+    <%#= check_box_tag "order[use_billing]", "1", @order.shipping_eq_billing_address? %>
+    <%#= label_tag :order_use_billing, t("spree.use_billing_address"), id: "use_billing" %>
+  </div>-->
+  <%= render "spree/address/form", locals: { form: ship_form, address_type: "shipping", address: @order.ship_address } %>
+<% end %>
+<%= submit_tag t("spree.continue"), class: "primary" %>
+<% if try_spree_current_user %>
+  <div class="checkbox">
+    <%= check_box_tag "save_user_address", "1", try_spree_current_user.respond_to?(:persist_order_address) %>
+    <%= label_tag :save_user_address, t("spree.save_my_address") %>
+  </div>
+<% end %>

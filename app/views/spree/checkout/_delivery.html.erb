@@ -1,0 +1,40 @@
+<legend><%= t("spree.delivery") %></legend>
+<%= form.fields_for :shipments do |ship_form| %>
+  <h2><%= t("spree.package_from") %></h2>
+  <h3><%= ship_form.object.stock_location.name %></h3>
+  <p><%= t("spree.item") %></p>
+  <p><%= t("spree.qty") %></p>
+  <p><%= t("spree.price") %></p>
+  <% ship_form.object.manifest.each do |item| %>
+    <%= render "spree/shared/image", image: (item.variant.gallery.images.first || item.variant.product.gallery.images.first), size: :mini %>
+    <p><%= item.variant.name %></p>
+    <p><%= item.quantity %></p>
+    <p><%= display_price(item.variant) %></p>
+  <% end %>
+  <h3><%= t("spree.shipping_method") %></h3>
+  <% ship_form.object.shipping_rates.each do |rate| %>
+    <%= ship_form.radio_button :selected_shipping_rate_id, rate.id %>
+    <p><%= rate.name %></p>
+    <p><%= rate.display_cost %></p>
+  <% end %>
+<% end %>
+<% if @differentiator.try(:missing?) %>
+  <h3><%= t("spree.unshippable_items") %></h3>
+  <p><%= t("spree.item") %></p>
+  <p><%= t("spree.qty") %></p>
+  <p><%= t("spree.price") %></p>
+  <% @differentiator.missing.each do |variant, quantity| %>
+    <%= render "spree/shared/image", image: (variant.gallery.images.first || variant.product.gallery.images.first), size: :mini %>
+    <p><%= variant.name %></p>
+    <p><%= quantity %></p>
+    <p><%= display_price(variant) %></p>
+  <% end %>
+<% end %>
+<% if Spree::Config[:shipping_instructions] %>
+  <div class="textarea">
+    <%= form.label :special_instructions, t("spree.shipping_instructions") %>
+    <%= form.text_area :special_instructions %>
+  </div>
+<% end %>
+<%= submit_tag t("spree.save_and_continue"), class: "primary" %>
+

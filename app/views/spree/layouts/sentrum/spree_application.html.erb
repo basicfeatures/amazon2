@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= current_store.name %></title>
+    <meta charset="utf-8">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1" name="viewport">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "sentrum", media: "all", "data-turbolinks-track": "reload" %>
+    <%= javascript_pack_tag "sentrum", "data-turbolinks-track": "reload" %>
+    <%= canonical_tag(current_store.url) %>
+  </head>
+  <body>
+    <% unless flash.empty? %>
+      <% flash.each do |key, value| %>
+        <%= content_tag(:p, value, class: "flash #{ key }") %>
+      <% end %>
+    <% end %>
+    <%# if @show_infobar == true %>
+      <%#= render "spree/shared/infobar" %>
+    <%# end %>
+    <header>
+       <nav>
+        <% unless current_page?(checkout_path) %>
+          <div>
+            <%= menu_trigger %>
+            <%= render "spree/shared/menu" %>
+            <%= link_to spree.root_path do %>
+              <h1 class="logo"><%= current_store.name %></h1>
+            <% end %>
+          </div>
+          <div>
+            <a href="#">Log in</a>
+            <a href="#">Shopping cart (0)</a>
+          </div>
+        <% end %>
+      </nav>
+      <form class="search">
+        <input type="text">
+      </form>
+      <div class="taxons_scroller">
+        <div class="swiper-wrapper">
+          <% @taxonomies.each do |taxonomy| %>
+            <div class="swiper-slide"><%= link_to taxonomy, taxonomy.name %></div>
+          <% end %>
+        </div>
+      </div>
+    </header>
+    <%= yield %>
+    <%= render "spree/shared/footer" %>
+  </body>
+</html>
+

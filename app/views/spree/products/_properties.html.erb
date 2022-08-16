@@ -1,0 +1,8 @@
+<% unless @product_properties.empty? %>  
+  <% @product_properties.each do |product_property| %>
+    <%= product_property.property.presentation %>
+    <%= product_property.value %>
+  <% end %>
+  <% reset_cycle("properties") %>
+<% end %>
+

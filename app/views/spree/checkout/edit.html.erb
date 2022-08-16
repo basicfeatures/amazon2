@@ -1,16 +1,23 @@
-<article class="checkout">
-  <%= render "spree/shared/error_messages", target: @order %>
-  <%= render "checkout_header" %>
-
-  <div class="checkout__main">
-    <section class="checkout__step">
-      <%= render "checkout_step", order: @order %>
-    </section>
-
-    <% if @order.state != "confirm" %>
-      <div class="checkout__summary">
-        <%= render "checkout_summary", order: @order %>
-      </div>
+<%= render "spree/shared/error_messages", locals: { target: @order } %>
+<%= checkout_progress %>
+<%= form_for @order, url: update_checkout_path(@order.state), html: { id: "checkout_form_#{ @order.state }" } do |form| %>
+  <% if @order.state != "confirm" %>
+    <%= render "summary", locals: { order: @order } %>
+  <% end %>
+  <% if @order.state == "address" || !@order.email? %>
+    <h2><%= t("spree.enter_email_address") %></h2>
+    <% unless spree_user_signed_in? %>
+      <p>Already have a Stacy's Passion account? <%= link_to "Sign in/register", spree.login_path %></p>
     <% end %>
-  </div>
-</article>
+    <div>
+      <%= form.email_field :email, required: true %>
+      <%= form.label :email %>
+    </div>
+    <%= render @order.state, form: form %>
+  <% end %>
+<% end %>
+<!--<script>
+  Spree.current_order_id = "<%#= @order.number %>"
+  Spree.current_order_token = "<%#= @order.guest_token %>"
+</script>-->
+

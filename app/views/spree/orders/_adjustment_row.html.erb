@@ -1,0 +1,4 @@
+<% if adjustments.sum(&:amount) != 0 %>
+  <h5><%= Spree::Money.new(adjustments.sum(&:amount), currency: @order.currency) %></h5>
+<% end %>
+

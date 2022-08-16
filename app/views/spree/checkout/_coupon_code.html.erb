@@ -1,0 +1,9 @@
+<%= form_for order, url: update_checkout_path(order.state) do |form| %>
+  <div class="input_text_submit_combo">
+    <%= form.text_field :coupon_code, placeholder: true %>
+    <button type="submit">
+      <%= t("spree.apply_code") %>
+    </button>
+  </div>
+<% end %>
+
